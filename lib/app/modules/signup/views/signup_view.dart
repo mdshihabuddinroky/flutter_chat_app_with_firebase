@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
-
-import '../../../services/create_user.dart';
 import '../controllers/signup_controller.dart';
 
 class SignupView extends GetView<SignupController> {
@@ -17,7 +15,7 @@ class SignupView extends GetView<SignupController> {
         providers: providers,
         actions: [
           AuthStateChangeAction<SignedIn>((context, state) async {
-            await createUserDocument();
+            await controller.createUserDocument();
             Get.offAllNamed(Routes.CHATUSER);
           }),
         ],

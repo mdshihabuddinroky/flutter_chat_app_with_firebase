@@ -4,7 +4,7 @@ import 'package:flutter_chat_app/app/modules/chatuser/controllers/chatuser_contr
 import 'package:get/get.dart';
 
 import '../../../Theme/colors.dart';
-import '../../../data/conversation_model.dart';
+import '../../../models/conversation_model.dart';
 import '../../../routes/app_pages.dart';
 
 class ChatuserView extends GetView<ChatuserController> {
