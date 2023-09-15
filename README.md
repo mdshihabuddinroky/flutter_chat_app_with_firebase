@@ -16,4 +16,4 @@
 - cloud_firestore: ^4.9.1
 - firebase_ui_auth: ^1.8.0
 - get: ^4.6.6
-- flutter_chat_ui: ^1.6.9
+- emoji_picker_flutter: ^1.6.1

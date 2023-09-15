@@ -47,11 +47,20 @@ class ChatlistController extends GetxController {
 
       // Add the message document to the collection
       await messagesRef.add(newMessage);
-
+      updateLastMessage(conversationId, messageText);
       // Message added successfully
     } catch (error) {
       // Handle any errors that occur during the process
       debugPrint('Error adding message: $error');
     }
+  }
+
+  void updateLastMessage(conversationId, messageText) {
+    CollectionReference<Map<String, dynamic>> messagesRef =
+        FirebaseFirestore.instance.collection('Conversation');
+    messagesRef.doc(conversationId).update({
+      'last_message': messageText,
+      'last_message_time': Timestamp.now(),
+    });
   }
 }

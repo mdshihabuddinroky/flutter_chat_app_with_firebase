@@ -1,7 +1,9 @@
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/app/Theme/colors.dart';
 import 'package:flutter_chat_app/app/modules/chatlist/controllers/chatlist_controller.dart';
 import 'package:get/get.dart';
+import 'package:flutter/foundation.dart' as foundation;
 
 class BottomWidgets extends StatelessWidget {
   const BottomWidgets({
