@@ -1,0 +1,33 @@
+name: flutter_chat_app
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment:
+  sdk: '>=3.0.6 <4.0.0'
+
+dependencies:
+  cloud_firestore: ^4.9.1
+  cupertino_icons: ^1.0.2
+  firebase_auth: ^4.9.0
+  firebase_core: ^2.15.1
+  firebase_ui_auth: ^1.8.0
+  flutter:
+    sdk: flutter
+  flutter_chat_ui: ^1.6.9
+  get: 4.6.6
+  google_fonts: ^5.1.0
+  intl: ^0.18.1
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  assets:
+    - assets/
+  uses-material-design: true
+  fonts:
+    - family: SocialIcons
+      fonts:
+        - asset: packages/firebase_ui_auth/fonts/SocialIcons.ttf
