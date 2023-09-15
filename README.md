@@ -1,16 +1,19 @@
-# flutter_chat_app
+# Chat App with Firebase
 
-A new Flutter project.
+- User Authentication
+- User List
+- Already Chat With User List
+- Search User / Conversation
+- Chat List With A User
+- Realtime with Firebase
+- Text, Image, Audio, and Video can be sent
+- Audio & Video Call with WebRtc (Optional)
+- FCM Push Notification
 
-## Getting Started
+## Package Will be Use
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- firebase_core: ^2.15.1
+- cloud_firestore: ^4.9.1
+- firebase_ui_auth: ^1.8.0
+- get: ^4.6.6
+- flutter_chat_ui: ^1.6.9
