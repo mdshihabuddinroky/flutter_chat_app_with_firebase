@@ -1,9 +1,9 @@
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/app/Theme/colors.dart';
 import 'package:flutter_chat_app/app/modules/chatlist/controllers/chatlist_controller.dart';
 import 'package:get/get.dart';
-import 'package:flutter/foundation.dart' as foundation;
+
+import '../../../../models/message_model.dart';
 
 class BottomWidgets extends StatelessWidget {
   const BottomWidgets({
@@ -61,19 +61,27 @@ class BottomWidgets extends StatelessWidget {
           //   Icons.emoji_emotions_outlined,
           //   color: Color(0xff353535),
           // ).paddingOnly(left: 10, top: 10, bottom: 10, right: 10),
-          const Icon(
-            Icons.attach_file,
-            color: Color(0xff353535),
-          ).paddingOnly(top: 10, bottom: 10, right: 0),
+          GestureDetector(
+            onTap: () {
+              controller.pickUploadFile(
+                Get.arguments['documentId'],
+                controller.user!.uid,
+              );
+            },
+            child: const Icon(
+              Icons.attach_file,
+              color: Color(0xff353535),
+            ).paddingOnly(top: 10, bottom: 10, right: 0),
+          ),
           GestureDetector(
             onTap: () async {
               if (messageController.text.isNotEmpty) {
-                await controller.addMessageToConversation(
-                  conversationId: Get.arguments['documentId'],
-                  messageText: messageController.text,
-                  senderId: controller.user!.uid,
-                  messageType: "text",
-                );
+                controller.addMessage(MessageModel(
+                    messageId: Get.arguments['documentId'],
+                    messageText: messageController.text,
+                    senderId: controller.user!.uid,
+                    messageType: "text"));
+
                 messageController.clear();
                 //focusNode.unfocus();
               }

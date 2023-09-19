@@ -1,7 +1,14 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app/app/data/remote/firestore_helper.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart' as path;
+import '../../../data/remote/firebase_storage_helper.dart';
+import '../../../models/message_model.dart';
 
 class ChatlistController extends GetxController {
   User? user = FirebaseAuth.instance.currentUser;
@@ -24,43 +31,67 @@ class ChatlistController extends GetxController {
     );
   }
 
-  Future<void> addMessageToConversation({
-    required String conversationId,
-    required String messageText,
-    required String senderId,
-    required String messageType,
-  }) async {
+  Future<void> pickUploadFile(
+    roomId,
+    senderId,
+  ) async {
     try {
-      // Create a reference to the Firestore collection for messages in the conversation
-      CollectionReference<Map<String, dynamic>> messagesRef = FirebaseFirestore
-          .instance
-          .collection('Conversation/$conversationId/message');
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'jpeg', 'png', 'mp4', 'mov'],
+      );
 
-      // Create a new message document
-      final newMessage = {
-        'created_at': Timestamp.now(),
-        'message': messageText,
-        'message_type': messageType,
-        'sender_id': senderId,
-        // Add other fields if needed
-      };
+      if (result != null) {
+        PlatformFile file = result.files.first;
+        String fileName = path.basename(file.name);
+        String fileExtension = path.extension(fileName).toLowerCase();
 
-      // Add the message document to the collection
-      await messagesRef.add(newMessage);
-      updateLastMessage(conversationId, messageText);
-      // Message added successfully
-    } catch (error) {
-      // Handle any errors that occur during the process
-      debugPrint('Error adding message: $error');
+        if (fileExtension == '.jpg' ||
+            fileExtension == '.jpeg' ||
+            fileExtension == '.png') {
+          debugPrint('Selected image file: $fileName');
+          // Handle image file
+          File file = File(result.files.single.path!);
+          final fileUrl = await FirebaseStorageHelper()
+              .storeFileToFirebase('files/${file.path.split('/').last}', file);
+          debugPrint("fileUrl $fileUrl");
+          MessageModel message = MessageModel(
+            messageId: roomId,
+            messageText: fileUrl,
+            senderId: senderId,
+            messageType: 'image',
+          );
+          addMessage(message);
+        } else if (fileExtension == '.mp4' || fileExtension == '.mov') {
+          debugPrint('Selected video file: $fileName');
+          File file = File(result.files.single.path!);
+
+          final fileUrl = await FirebaseStorageHelper()
+              .storeFileToFirebase('files/${file.path.split('/').last}', file);
+          debugPrint("fileUrl $fileUrl");
+          MessageModel message = MessageModel(
+            messageId: roomId,
+            messageText: fileUrl,
+            senderId: senderId,
+            messageType: 'video',
+          );
+          addMessage(message);
+        } else {
+          debugPrint('Invalid file type: $fileName');
+          // Handle invalid file type
+        }
+      }
+    } catch (e) {
+      debugPrint('Error picking files: $e');
     }
   }
 
-  void updateLastMessage(conversationId, messageText) {
-    CollectionReference<Map<String, dynamic>> messagesRef =
-        FirebaseFirestore.instance.collection('Conversation');
-    messagesRef.doc(conversationId).update({
-      'last_message': messageText,
-      'last_message_time': Timestamp.now(),
-    });
+  void addMessage(MessageModel message) {
+    FireStoreHelper().addMessageToDatabase(
+      conversationId: message.messageId,
+      messageText: message.messageText,
+      senderId: message.senderId,
+      messageType: message.messageType,
+    );
   }
 }

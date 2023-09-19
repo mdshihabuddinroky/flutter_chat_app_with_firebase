@@ -4,14 +4,14 @@ class MessageModel {
   final String messageId;
   final String messageText;
   final String senderId;
-  final DateTime createdAt;
+  DateTime? createdAt;
   final String messageType; // Added field for message type
 
   MessageModel({
     required this.messageId,
     required this.messageText,
     required this.senderId,
-    required this.createdAt,
+    this.createdAt,
     required this.messageType,
   });
 
@@ -29,7 +29,7 @@ class MessageModel {
     return {
       'message': messageText,
       'sender_id': senderId,
-      'created_at': Timestamp.fromDate(createdAt),
+      'created_at': Timestamp.now(),
       'message_type': messageType, // Include messageType
     };
   }

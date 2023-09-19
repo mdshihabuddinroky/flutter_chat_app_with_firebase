@@ -85,17 +85,19 @@ class _ChatlistViewState extends State<ChatlistView> {
                     }).toList();
                     final messageData = data[index];
                     final formattedTime =
-                        DateFormat('h:mm a').format(messageData.createdAt);
+                        DateFormat('h:mm a').format(messageData.createdAt!);
 
                     if (controller.user!.uid == messageData.senderId) {
                       return SendMessage(
                         message: messageData.messageText,
                         time: formattedTime,
+                        messageType: messageData.messageType,
                       );
                     } else {
                       return RecivedMessage(
                         message: messageData.messageText,
                         time: formattedTime,
+                        messageType: messageData.messageType,
                       );
                     }
                   },

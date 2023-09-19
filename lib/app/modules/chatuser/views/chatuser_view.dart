@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/app/modules/chatuser/controllers/chatuser_controller.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../Theme/colors.dart';
 import '../../../models/conversation_model.dart';
@@ -70,8 +71,8 @@ class ChatuserView extends GetView<ChatuserController> {
                             name: participants.participant1Name,
                             message: participants.lastMessage,
                             image: participants.participant1Image,
-                            time:
-                                "${participants.lastMessageTime.toDate().hour}:${participants.lastMessageTime.toDate().minute}",
+                            time: DateFormat('h:mm a')
+                                .format(participants.lastMessageTime.toDate()),
                             unread: index,
                             onPress: () {
                               Get.toNamed(Routes.CHATLIST, arguments: {
@@ -175,14 +176,20 @@ class ChatTile extends StatelessWidget {
                                 letterSpacing: -0.30,
                               ),
                     ),
-                    Text(message,
-                        style: Theme.of(context)
-                            .textTheme
-                            .displaySmall!
-                            .copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: secondaryColor.withOpacity(0.5)))
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: Text(message,
+                          maxLines: 1,
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context)
+                              .textTheme
+                              .displaySmall!
+                              .copyWith(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: secondaryColor.withOpacity(0.5))),
+                    )
                   ],
                 ),
                 const Spacer(),
