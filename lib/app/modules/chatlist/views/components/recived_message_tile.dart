@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/app/modules/chatlist/views/components/video_player.dart';
 import 'package:get/get.dart';
 
-import '../../../../Theme/colors.dart';
 import '../../../../service/get_thumbnali.dart';
 
 class RecivedMessage extends StatelessWidget {
@@ -38,51 +37,48 @@ class RecivedMessage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                width: 267,
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  shadows: const [
-                    BoxShadow(
-                      color: Color(0x0C000000),
-                      blurRadius: 12,
-                      offset: Offset(0, 0),
-                      spreadRadius: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+              width: 267,
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
+                shadows: const [
+                  BoxShadow(
+                    color: Color(0x0C000000),
+                    blurRadius: 12,
+                    offset: Offset(0, 0),
+                    spreadRadius: 0,
+                  )
+                ],
+              ),
+              child: (messageType == 'text')
+                  ? Text(
+                      message,
+                      style: const TextStyle(
+                        color: Color(0xff353535),
+                        fontSize: 15,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: -0.30,
+                      ),
                     )
-                  ],
-                ),
-                child: (messageType == 'text')
-                    ? Text(
-                        message,
-                        style: const TextStyle(
-                          color: Color(0xff353535),
-                          fontSize: 15,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: -0.30,
-                        ),
-                      )
-                    : messageType == 'image'
-                        ? CachedNetworkImage(
-                            imageUrl: message,
-                            placeholder: (context, url) => const SizedBox(
-                                height: 150,
-                                child:
-                                    Center(child: CircularProgressIndicator())),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          )
-                        :
-
-                        //Obx(() =>
-                        messageType == 'video'
-                            ? Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  (thumbnali.value.isNotEmpty)
+                  : messageType == 'image'
+                      ? CachedNetworkImage(
+                          imageUrl: message,
+                          placeholder: (context, url) => const SizedBox(
+                              height: 150,
+                              child:
+                                  Center(child: CircularProgressIndicator())),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        )
+                      : messageType == 'video'
+                          ? Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Obx(
+                                  () => (thumbnali.value.isNotEmpty)
                                       ? Image.memory(
                                           thumbnali.value,
                                           fit: BoxFit
@@ -91,22 +87,22 @@ class RecivedMessage extends StatelessWidget {
                                       : Container(
                                           height: 150,
                                         ),
-                                  IconButton(
-                                    onPressed: () {
-                                      Get.to(() => VideoScreen(
-                                            videoUrl: message,
-                                          ));
-                                    },
-                                    icon: const Icon(
-                                      Icons.play_circle_fill,
-                                      color: whiteColor,
-                                      size: 40,
-                                    ),
-                                  )
-                                ],
-                              )
-                            : Container()),
-            //),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    Get.to(() => VideoScreen(
+                                          videoUrl: message,
+                                        ));
+                                  },
+                                  icon: const Icon(
+                                    Icons.play_circle_fill,
+                                    size: 40,
+                                  ),
+                                )
+                              ],
+                            )
+                          : Container(),
+            ),
             const SizedBox(
               height: 5,
             ),

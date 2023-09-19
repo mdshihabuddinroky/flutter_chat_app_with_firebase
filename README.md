@@ -17,3 +17,6 @@
 - firebase_ui_auth: ^1.8.0
 - get: ^4.6.6
 - emoji_picker_flutter: ^1.6.1
+
+## Setup Step
+-minSdkVersion 19

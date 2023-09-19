@@ -76,19 +76,21 @@ class SendMessage extends StatelessWidget {
                             errorWidget: (context, url, error) =>
                                 const Icon(Icons.error),
                           )
-                        : Obx(() => messageType == 'video'
+                        : messageType == 'video'
                             ? Stack(
                                 alignment: Alignment.center,
                                 children: [
-                                  (thumbnali.value.isNotEmpty)
-                                      ? Image.memory(
-                                          thumbnali.value,
-                                          fit: BoxFit
-                                              .cover, // You can adjust the BoxFit as needed
-                                        )
-                                      : Container(
-                                          height: 150,
-                                        ),
+                                  Obx(
+                                    () => (thumbnali.value.isNotEmpty)
+                                        ? Image.memory(
+                                            thumbnali.value,
+                                            fit: BoxFit
+                                                .cover, // You can adjust the BoxFit as needed
+                                          )
+                                        : Container(
+                                            height: 150,
+                                          ),
+                                  ),
                                   IconButton(
                                     onPressed: () {
                                       Get.to(() => VideoScreen(
@@ -103,7 +105,7 @@ class SendMessage extends StatelessWidget {
                                   )
                                 ],
                               )
-                            : Container())),
+                            : Container()),
             const SizedBox(
               height: 5,
             ),
